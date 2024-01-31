@@ -102,7 +102,7 @@ function printInvoice() {
     const totalAmount = document.getElementsByClassName('modal-body')[0].innerHTML;
 
     const pdfContent = `
-        <div style="margin: 1rem;" background color : green;>
+        <div style="margin: 4rem;" background color : green;>
             <p>Please send this PDF to any of our WhatsApp (09126711653, 07025558753) or Instagram @agaperoyalorganics. You will be attended to immediately before any other customer.</p>
             ${invoiceContent}
             ${totalAmount}
