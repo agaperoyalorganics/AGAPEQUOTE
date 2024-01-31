@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;   
+}
+
+body {
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(142, 173, 132);
+    
+}
+
+
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.header h1 {
+    margin-left: 200px;
+}
+
+.header img {
+    max-width: 200px;
+    height: auto;
+    
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 100%;
+    padding: 10px;
+   
+    background-color: rgb(210, 210, 210);
+
+}
+
+.row {
+    width: 100%;
+}
+
+.add-product, .added-product {
+    background-color: rgb(240, 240, 240);
+    border: 1px solid;
+    padding: 20px;
+    margin: 19px;
+    border-radius: 10px;
+}
+
+.add-product {
+    max-height: 300px;
+}
+
+.product-table {
+    min-height: 400px;
+}
+
+.table-footer {
+    margin-left: 3px;
+    border-top: 1px solid;
+    padding-top: 10px;
+}
+
+/* Larger than standard 1200px */
+@media (min-width: 1200px) {
+    .main {
+      width: 1000px;
+    }
+  }
+  
+
+  /* Extra small devices (portrait phones, up to 576px) */
+  @media (max-width: 575.98px) {
+    *{
+        font-size: 97%;
+    }
+    body{
+        width:100%;
+        margin: 0;
+        padding: 0;
+    }
+    .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 0px;
+        width: 100%;     
+        padding: 1px;
+        margin: 1px;
+    }
+
+    
+    .header h1 {
+        font-size: 1rem;
+        margin-left: 2rem;
+        font-weight: bold;
+    }
+    
+    .header img {
+        max-width: 70px;
+        
+    }
+    .add-product{
+        width: 100%;
+        height: 300px;
+        margin-bottom: .2rem;
+    }
+    .added-product{
+        width: 100%;
+    }
+    .product-table {
+        min-height: 400px;
+        font-size: 90%;
+        margin: 0;
+    }
+    th{
+        border: 1px solid black;
+        padding: .1rem;
+        padding-right: .5rem;
+        padding-left: .5rem;
+    }
+  }
+  
