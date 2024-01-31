@@ -35,7 +35,7 @@ function addProductToTable() {
             <th scope="row">${tableBody.children.length + 1}</th>
             <td>${productName}</td>
             <td>${productQuantity}</td>
-            <td>${productPrice*productQuantity}</td>
+            <td><div>${productPrice*productQuantity}<p>pcs</p></div></td>
 
             <td>
                 <button type="button" class="btn btn-danger delete-btn"><i class="fa-solid fa-trash"></i></button>
