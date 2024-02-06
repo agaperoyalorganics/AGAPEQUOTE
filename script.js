@@ -17,8 +17,93 @@ function updateTotal() {
 
     document.getElementById('totalAmount').textContent = total.toFixed(2);
 }
-// data decleration
 
+// stressfull json starrt here
+const jsonUrl = 'product.json';
+
+async function fetchData() {
+    try {
+        const response = await fetch(jsonUrl);
+        data = await response.json(); 
+
+        const dropdown = document.getElementById('productName');
+        dropdown.innerHTML = ""; 
+
+        data.forEach(product => {
+            const optionElement = document.createElement('option');
+            optionElement.textContent = product.name;
+            dropdown.appendChild(optionElement);
+        });
+
+        document.getElementById('productPrice').value = data[0].price;
+        updateStockMessage(); // Call updateStockMessage to initially set the stock message
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+// Function to update the price when a different product is selected
+function updatePrice() {
+    const dropdown = document.getElementById('productName');
+    const selectedProduct = dropdown.options[dropdown.selectedIndex].text;
+
+    // Find the selected product data in the fetched data
+    const selectedProductData = data.find(product => product.name === selectedProduct);
+
+    if (selectedProductData) {
+        // Update the price after ensuring the data is available
+        document.getElementById('productPrice').value = selectedProductData.price;
+        updateStockMessage(selectedProductData.instock); // Call updateStockMessage with instock value
+    }
+}
+
+
+// Function to update the stock message based on the instock property
+function updateStockMessage(instock) {
+    const stockMessage = document.getElementById('stockMessage');
+    const borderColor = document.getElementById('invoiceCover');
+    if (instock=="false") { // Checks if instock is false
+        stockMessage.style.display = 'block';
+        borderColor.style.border = '1px solid red'
+    } else {
+        stockMessage.style.display = 'none';
+        borderColor.style.border = '1px solid black'
+    }
+}
+
+
+fetchData();
+
+
+
+
+
+
+// search model for products
+const searchInput = document.createElement('input');
+searchInput.type = 'text';
+searchInput.style = "width:100px"
+searchInput.placeholder = '   Search..';
+searchInput.addEventListener('input', filterProducts);
+
+const dropdown = document.getElementById('productName');
+dropdown.parentNode.insertBefore(searchInput, dropdown);
+
+function filterProducts() {
+  const searchTerm = searchInput.value.toLowerCase();
+  
+  // Filter data and exclude products with null name
+  const filteredData = data.filter(product => product.name && product.name.toLowerCase().includes(searchTerm));
+
+  dropdown.innerHTML = ""; // Clear existing options
+
+  filteredData.forEach(product => {
+    const optionElement = document.createElement('option');
+    optionElement.textContent = product.name;
+    dropdown.appendChild(optionElement);
+  });
+}
+// search model for products
 
 
 
@@ -34,13 +119,8 @@ function addProductToTable() {
         newRow.innerHTML = `
             <th scope="row">${tableBody.children.length + 1}</th>
             <td>${productName}</td>
-            <td>
-                
-               ${productQuantity}<p>pcs</p>
-            </td>
-            <td>
-               <div>${productPrice*productQuantity}
-            </td>
+            <td>${productQuantity}</td>
+            <td>${productPrice*productQuantity}</td>
 
             <td>
                 <button type="button" class="btn btn-danger delete-btn"><i class="fa-solid fa-trash"></i></button>
@@ -107,7 +187,7 @@ function printInvoice() {
     const totalAmount = document.getElementsByClassName('modal-body')[0].innerHTML;
 
     const pdfContent = `
-        <div style="margin: 4rem;" background color : green;>
+        <div style="padding: 10px; margin: 0;">
             <p>Please send this PDF to any of our WhatsApp (09126711653, 07025558753) or Instagram @agaperoyalorganics. You will be attended to immediately before any other customer.</p>
             ${invoiceContent}
             ${totalAmount}
@@ -146,77 +226,3 @@ document.getElementById('printButton').addEventListener('click', function () {
 
 
 
-// product select
-const jsonUrl = 'product.json';
-
-async function fetchData() {
-    try {
-        const response = await fetch(jsonUrl);
-        data = await response.json(); 
-
-        const dropdown = document.getElementById('productName');
-        dropdown.innerHTML = ""; 
-
-        data.forEach(product => {
-            const optionElement = document.createElement('option');
-            optionElement.textContent = product.name;
-            dropdown.appendChild(optionElement);
-        });
-
-        document.getElementById('productPrice').value = data[0].price;
-    } catch (error) {
-        console.error('Error fetching data:', error);
-    }
-}
-// product select
-
-
-
-
-
-// Function to update the price when a different product is selected
-function updatePrice() {
-    const dropdown = document.getElementById('productName');
-    const selectedProduct = dropdown.options[dropdown.selectedIndex].text;
-
-    // Find the selected product data in the fetched data
-    const selectedProductData = data.find(product => product.name === selectedProduct);
-
-    if (selectedProductData) {
-        // Update the price after ensuring the data is available
-        document.getElementById('productPrice').value = selectedProductData.price;
-    }
-}
-
-fetchData();
-document.getElementById('productName').addEventListener('change', updatePrice);
-// Function to update the price when a different product is selected
-
-
-
-
-// search model for products
-const searchInput = document.createElement('input');
-searchInput.type = 'text';
-searchInput.style = "width:100px"
-searchInput.placeholder = '   Search..';
-searchInput.addEventListener('input', filterProducts);
-
-const dropdown = document.getElementById('productName');
-dropdown.parentNode.insertBefore(searchInput, dropdown);
-
-function filterProducts() {
-  const searchTerm = searchInput.value.toLowerCase();
-  
-  // Filter data and exclude products with null name
-  const filteredData = data.filter(product => product.name && product.name.toLowerCase().includes(searchTerm));
-
-  dropdown.innerHTML = ""; // Clear existing options
-
-  filteredData.forEach(product => {
-    const optionElement = document.createElement('option');
-    optionElement.textContent = product.name;
-    dropdown.appendChild(optionElement);
-  });
-}
-// search model for products
